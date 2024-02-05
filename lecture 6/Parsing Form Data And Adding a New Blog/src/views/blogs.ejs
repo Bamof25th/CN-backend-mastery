@@ -1,0 +1,23 @@
+// Write your code here
+<h1>Blogs</h1>
+<div class="container d-flex flex-wrap gap-2">
+  <%blogs.forEach((blog)=> {%>
+  <div class="card mb-3" style="max-width: 540px">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img
+          src="<%=blog.img%>"
+          class="img-fluid rounded-start"
+          alt="<%=blog.title%>"
+        />
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title"><%=blog.title%></h5>
+          <p class="card-text"><%=blog.description%></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%})%>
+</div>

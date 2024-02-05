@@ -1,0 +1,19 @@
+{
+  "name": "solution",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "^1.6.1"
+  },
+  "dependencies": {
+    "@babel/preset-env": "^7.23.2",
+    "grunt-replace": "^2.0.2"
+  }
+}

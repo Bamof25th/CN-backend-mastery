@@ -1,0 +1,15 @@
+1. Insstall Multer.--> Done
+2. Changes in views.--> Done
+3. Middleware to handel Files. --> Done
+4. Apply that Middleware.-->Done
+5. Update the controller to update url's of images.
+
+
+Lecture 7 part - 1  By Aniket  
+
+cookies => storage system which is stores some data in browsers.
+
+whenever we create a session it creates a cookie in browser.
+
+cookies are managed by sessions.
+ 

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatApp</title>
+</head>
+
+<body>
+    <div class="chat-container">
+        <div id="message-list">
+
+            <!-- list will contain messages -->
+
+        </div>
+        <input type="text" id="message-input">
+        <button id="send-message">send</button>
+    </div>
+
+
+
+    <script src="http://localhost:3200/socket.io/socket.io.js"></script>
+    <script>
+        // socket code in Js.
+        const socket = io.connect('http://localhost:3200')
+
+        const userName = prompt(' Enter your name')
+        socket.emit("join", userName);
+        // get the elements
+        const messageInput = document.getElementById("message-input")
+        const messageList = document.getElementById("message-list")
+        const sendBtn = document.getElementById("send-message")
+        sendBtn.addEventListener('click', function () {
+            let message = messageInput.value;
+            if (message) {
+                socket.emit('new_message', message);
+
+                // Add  message to the list
+
+                const messageElement = document.createElement("div")
+                messageElement.innerText = userName + ":" + message;
+                messageList.appendChild(messageElement);
+
+                messageInput.value = "";
+            }
+        })
+        // Display messages on the UI.
+
+        socket.on('load_msgs', (messages) => {
+            messages.forEach((message) => {
+                const messageElement = document.createElement("div");
+                messageElement.innerText = new Date(message.timestamp).toDateString() + '-' + message.userName + ":" + message.message;
+                messageList.appendChild(messageElement);
+            });
+        })
+
+        // Listen For the broadcat message , and add it to the list
+        socket.on("broadcast_message", (userMessage) => {
+            console.log(userMessage);
+            const messageElement = document.createElement("div");
+            messageElement.innerText = userMessage.userName + ":" + userMessage.message;
+            messageList.appendChild(messageElement);
+        })
+
+    </script>
+</body>
+
+</html>

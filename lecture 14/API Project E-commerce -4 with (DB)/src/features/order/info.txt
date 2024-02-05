@@ -1,0 +1,13 @@
+Transaction
+
+a. Place order.
+  1.Get cart item of user , calculate totalAmount.
+  2. Create the record for order.
+  3. Reduce to stock(Product Quantity).
+  4. Clear the cart
+  
+  
+  
+  5. Deducted the payment.
+  6.Inform to seller
+  7.to Inform coureir.

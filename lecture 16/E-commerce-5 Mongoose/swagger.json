@@ -1,0 +1,80 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "description": "API for e-commerse Application",
+    "title": "E-commerce API"
+  },
+  "server": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "JWT": {
+        "in": "header",
+        "name": "Authorization",
+        "type": "apiKey"
+      }
+    }
+  },
+  "paths": {
+    "/api/products": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "summary": "Get Products",
+        "description": "User Will get all products",
+        "security": [
+          {
+            "JWT": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/users/signin": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Login",
+        "description": "User login to get Token",
+        "requestBody": {
+          "content":{
+            "application/json":{
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Incorrect Credentials"
+          }
+        }
+      }
+    }
+  }
+}

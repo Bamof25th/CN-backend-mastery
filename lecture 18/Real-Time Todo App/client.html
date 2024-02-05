@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Task Management App</title>
+</head>
+
+<body>
+    <div id="task-form">
+        <!-- Create a form to add new tasks -->
+        <form id="create-task-form">
+            <input type="text" id="task-text" placeholder="Enter a new task" required>
+            <button id="create-task" type="submit">Add Task</button>
+        </form>
+    </div>
+
+    <div id="task-list">
+        <!-- Tasks will be displayed here -->
+    </div>
+
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io.connect('http://localhost:3000');
+
+        const taskForm = document.getElementById('create-task-form');
+        const taskTextInput = document.getElementById('task-text');
+        const taskList = document.getElementById('task-list');
+
+        // Event handler for submitting a new task
+        taskForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const taskText = taskTextInput.value;
+            // Emit a 'createTask' event to create a new task
+            socket.emit('createTask', taskText);
+            taskTextInput.value = '';
+        });
+
+        // Event handler for deleting a task
+        function deleteTask(taskId) {
+            // Emit a 'deleteTask' event to the server
+            socket.emit('deleteTask', taskId);
+        }
+
+        // Event handler for updating a task
+        function updateTask(taskId, newText) {
+            // Emit an 'updateTask' event to the server
+            socket.emit('updateTask', taskId, newText);
+        }
+
+        // Event handler for receiving a new task
+        socket.on('newTask', (task) => {
+            const taskElement = document.createElement('div');
+            taskElement.innerHTML = `
+                <span>${task.text}</span>
+                <button onclick="deleteTask('${task._id}')">Delete</button>
+                <button onclick="updateTask('${task._id}', prompt('Edit task:', '${task.text}'))">Update</button>
+            `;
+            taskList.appendChild(taskElement);
+        });
+
+        // Event handler for receiving existing tasks
+        socket.on('tasks', (tasks) => {
+            taskList.innerHTML = ''; // Clear the task list
+            tasks.forEach((task) => {
+                const taskElement = document.createElement('div');
+                taskElement.innerHTML = `
+                    <span>${task.text}</span>
+                    <button onclick="deleteTask('${task._id}')">Delete</button>
+                    <button onclick="updateTask('${task._id}', prompt('Edit task:', '${task.text}'))">Update</button>
+                `;
+                taskList.appendChild(taskElement);
+            });
+        });
+
+        // Event handler for receiving deleted task
+        socket.on('taskDeleted', (taskId) => {
+            const taskElement = document.querySelector(`[data-task-id="${taskId}"]`);
+            if (taskElement) {
+                taskElement.remove();
+            }
+        });
+
+        // Event handler for receiving updated task
+        socket.on('taskUpdated', (task) => {
+            const taskElement = document.querySelector(`[data-task-id="${task._id}"]`);
+            if (taskElement) {
+                taskElement.querySelector('span').textContent = task.text;
+            }
+        });
+    </script>
+</body>
+
+</html>

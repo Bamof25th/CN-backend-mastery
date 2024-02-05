@@ -1,0 +1,5 @@
+Welcome to Coding Ninjas! Today's quote of the day is  {
+    "message": "Be yourself; everyone else is already taken."
+     }{
+    "message":"bhag bsdk"
+}

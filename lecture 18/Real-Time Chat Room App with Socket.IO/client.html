@@ -1,0 +1,80 @@
+<!-- No need to change the pre-written code.
+Implement the features inside the script tag -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chat-Room App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div id="login-container">
+        <!-- form to enter username and room ID -->
+        <form id="login-form">
+            <input type="text" id="username-input" placeholder="Enter your username" required>
+            <input type="text" id="room-input" placeholder="Enter room ID" required>
+            <button id='start-chatting' type="submit">Start Chatting</button>
+        </form>
+    </div>
+
+    <div id="chat-container">
+        <!-- message display area -->
+        <div id="message-display">
+            <!-- Messages will be appended here -->
+        </div>
+
+        <!-- form to send messages -->
+        <form id="message-form">
+            <input type="text" id="message-input" placeholder="Type your message" required>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io.connect('http://localhost:3000');
+        
+        // ----------------- Write your code here ---------------
+     
+        const loginConatiner =  document.getElementById('login-container')
+        const messageForm =  document.getElementById('message-form')
+        const messageInput =  document.getElementById('message-input')
+        const messageDisplay =  document.getElementById('message-display')
+        const chatContainer = document.getElementById('chat-container')
+
+        let userName= ''
+        let roomName = ''
+
+       document.getElementById('login-form').addEventListener('submit',(e)=>{
+        e.preventDefault();
+        userName = document.getElementById('username-input').value;
+        roomName = document.getElementById('room-input').value;
+        console.log(userName+ "+" +roomName)
+        loginConatiner.style.display ="none";
+        chatContainer.style.display ="block";
+          
+        socket.emit('join', {userName, roomName});
+       })
+
+       messageForm.addEventListener('submit',(e)=>{
+        e.preventDefault();
+        const message  = messageInput.value;
+        socket.emit('sendMessage', {userName, message, roomName})
+        messageInput.value='';
+       })
+
+       socket.on('message', (message)=>{
+        const messageEle = document.createElement('div');
+        messageEle.innerText =  `${message.userName ? message.userName + ":": ""} ${message.text}`;
+        messageDisplay.appendChild(messageEle)
+       })
+
+
+    </script>
+
+
+</body>
+
+</html>

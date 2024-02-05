@@ -1,0 +1,1 @@
+const axios=require("axios"),Solution=async()=>{var o=await axios.get("https://api.codingninjas.com/api/v3/event_tags");console.log(o.data)};Solution(),module.exports=Solution;

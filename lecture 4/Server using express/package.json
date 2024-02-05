@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "scripts": {
+    "server": "nodemon middleware.js"
+  }
+}

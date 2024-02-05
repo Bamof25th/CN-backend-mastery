@@ -1,0 +1,6 @@
+Pokemon  : bulbasaur 
+Pokemon  : picachu
+Pokemon  : Raichu
+Pokemon  : Charlizard
+Pokemon  : clefeary
+Pokemon  : Charmilion
